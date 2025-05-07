@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:student_management_getx/controllers/student.controller.dart';
+import 'package:student_management_getx/controllers/student_controller.dart';
 import 'package:student_management_getx/models/student_model.dart';
 import 'package:student_management_getx/screens/add_edit_student_page.dart';
 import 'package:student_management_getx/widgets/confirm_dialog.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:student_management_getx/controllers/student.controller.dart';
+import 'package:student_management_getx/controllers/student_controller.dart';
 import 'package:student_management_getx/models/student_model.dart';
 import 'package:student_management_getx/screens/add_edit_student_page.dart';
 import 'package:student_management_getx/screens/student_details_page.dart';
@@ -9,41 +9,33 @@ import 'package:student_management_getx/widgets/empty_message.dart';
 import 'package:student_management_getx/widgets/student_grid_card.dart';
 import 'package:student_management_getx/widgets/student_list_card.dart';
 
-class StudentListScreen extends StatefulWidget {
-  const StudentListScreen({super.key});
+class StudentListScreen extends StatelessWidget {
+  StudentListScreen({super.key});
 
-  @override
-  State<StudentListScreen> createState() => _StudentListScreenState();
-}
-
-class _StudentListScreenState extends State<StudentListScreen> {
   final StudentController controller = Get.find<StudentController>();
-  bool isGrid = false;
-  String _searchQuery = '';
 
-  @override
-  void initState() {
-    super.initState();
-    controller.fetchStudents();
-  }
+  final RxBool isGrid = false.obs;
+  final RxString searchQuery = ''.obs;
 
   @override
   Widget build(BuildContext context) {
+    controller.fetchStudents();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Student Records'),
         backgroundColor: const Color.fromARGB(255, 235, 130, 9),
         actions: [
-          IconButton(
-            icon: Icon(isGrid ? Icons.list : Icons.grid_view),
-            onPressed: () {
-              setState(() => isGrid = !isGrid);
-            },
+          Obx(
+            () => IconButton(
+              icon: Icon(isGrid.value ? Icons.list : Icons.grid_view),
+              onPressed: () => isGrid.toggle(),
+            ),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Get.to(() => const AddEditStudentScreen()),
+        onPressed: () => Get.to(() => AddEditStudentScreen()),
         child: const Icon(Icons.add),
       ),
       body: Container(
@@ -62,20 +54,18 @@ class _StudentListScreenState extends State<StudentListScreen> {
             Padding(
               padding: const EdgeInsets.all(12),
               child: CustomSearchBar(
-                onChanged: (value) {
-                  setState(() => _searchQuery = value);
-                },
+                onChanged: (value) => searchQuery.value = value,
               ),
             ),
             Expanded(
               child: Obx(() {
-                final students = controller.searchStudents(_searchQuery);
+                final students = controller.searchStudents(searchQuery.value);
 
                 if (students.isEmpty) {
                   return const EmptyMessage();
                 }
 
-                return isGrid
+                return isGrid.value
                     ? GridView.builder(
                       padding: const EdgeInsets.all(12),
                       gridDelegate:

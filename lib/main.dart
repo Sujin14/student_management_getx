@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:student_management_getx/controllers/student.controller.dart';
+import 'package:student_management_getx/controllers/student_controller.dart';
 import 'package:student_management_getx/screens/student_list_page.dart';
 
 void main() {
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Student Management',
       theme: ThemeData(primarySwatch: Colors.indigo),
-      home: const StudentListScreen(),
+      home: StudentListScreen(),
     );
   }
 }

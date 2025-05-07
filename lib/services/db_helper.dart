@@ -23,9 +23,9 @@ class DBHelper {
           CREATE TABLE students (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT,
-            age TEXT,
+            age INTEGER,
             email TEXT,
-            phone TEXT,
+            phone INTEGER,
             imagePath TEXT
           )
         ''');
@@ -36,11 +36,7 @@ class DBHelper {
   // Insert student
   static Future<int> insertStudent(StudentModel student) async {
     final db = await database;
-    return await db.insert(
-      'students',
-      student.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+    return await db.insert('students', student.toMap());
   }
 
   // Get all students
