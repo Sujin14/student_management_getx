@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:student_management_getx/controllers/student_form_controller.dart';
 import 'package:student_management_getx/models/student_model.dart';
+import 'package:student_management_getx/utils/validators.dart';
 
 class AddEditStudentScreen extends StatelessWidget {
   final StudentModel? student;

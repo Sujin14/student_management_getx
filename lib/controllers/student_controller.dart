@@ -3,17 +3,19 @@ import 'package:student_management_getx/models/student_model.dart';
 import 'package:student_management_getx/services/db_helper.dart';
 
 class StudentController extends GetxController {
-  var students = <StudentModel>[].obs;
+  List<StudentModel> students = [];
 
   Future<void> fetchStudents() async {
     final dataList = await DBHelper.getStudents();
-    students.assignAll(dataList);
+    students = dataList;
+    update();
   }
 
   Future<void> addStudent(StudentModel student) async {
     final id = await DBHelper.insertStudent(student);
     student.id = id;
     students.add(student);
+    update();
   }
 
   Future<void> updateStudent(StudentModel student) async {
@@ -21,13 +23,14 @@ class StudentController extends GetxController {
     final index = students.indexWhere((s) => s.id == student.id);
     if (index != -1) {
       students[index] = student;
-      students.refresh();
+      update();
     }
   }
 
   Future<void> deleteStudent(int id) async {
     await DBHelper.deleteStudent(id);
     students.removeWhere((student) => student.id == id);
+    update();
   }
 
   StudentModel? getStudentById(int id) {
@@ -38,12 +41,7 @@ class StudentController extends GetxController {
     if (query.isEmpty) return students;
     return students
         .where(
-          (student) =>
-              student.name.toLowerCase().contains(query.toLowerCase()) ||
-              student.email.toLowerCase().contains(query.toLowerCase()) ||
-              student.phone.toString().toLowerCase().contains(
-                query.toLowerCase(),
-              ),
+          (student) => student.name.toLowerCase().contains(query.toLowerCase()),
         )
         .toList();
   }

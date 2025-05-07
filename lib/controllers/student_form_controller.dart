@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:student_management_getx/controllers/student_controller.dart';
-import '../models/student_model.dart';
+import 'package:student_management_getx/models/student_model.dart';
 
 class StudentFormController extends GetxController {
   final nameController = TextEditingController();

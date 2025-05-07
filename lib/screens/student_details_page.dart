@@ -50,8 +50,8 @@ class StudentDetailScreen extends StatelessWidget {
             end: Alignment.bottomRight,
           ),
         ),
-        child: GetX<StudentController>(
-          init: StudentController(),
+        child: GetBuilder<StudentController>(
+          init: Get.find<StudentController>(),
           builder: (controller) {
             final updatedStudent = controller.getStudentById(student.id!);
 
