@@ -1,50 +1,89 @@
 import 'package:get/get.dart';
-import 'package:student_management_getx/models/student_model.dart';
-import 'package:student_management_getx/services/db_helper.dart';
+import '../models/student_model.dart';
+import '../repository/student_repository.dart';
 
 class StudentController extends GetxController {
-  var students = <StudentModel>[].obs;
+  final StudentRepository _repository = StudentRepository();
 
-  Future<void> fetchStudents() async {
-    final dataList = await DBHelper.getStudents();
-    students.assignAll(dataList);
+  var students = <Student>[].obs;
+  var searchResults = <Student>[].obs;
+
+  var isGridView = false.obs;
+  var isSearching = false.obs;
+  var lastQuery = '';
+
+  @override
+  void onInit() {
+    super.onInit();
+    loadStudents();
   }
 
-  Future<void> addStudent(StudentModel student) async {
-    final id = await DBHelper.insertStudent(student);
-    student.id = id;
-    students.add(student);
-  }
+  Future<void> loadStudents() async {
+    final fetched = await _repository.fetchStudents();
+    students.value = fetched;
 
-  Future<void> updateStudent(StudentModel student) async {
-    await DBHelper.updateStudent(student);
-    final index = students.indexWhere((s) => s.id == student.id);
-    if (index != -1) {
-      students[index] = student;
-      students.refresh();
+    if (isSearching.value && lastQuery.isNotEmpty) {
+      searchResults.value =
+          students
+              .where(
+                (student) => student.name.toLowerCase().startsWith(
+                  lastQuery.toLowerCase(),
+                ),
+              )
+              .toList();
     }
+    update();
+  }
+
+  Future<void> addStudent(Student student) async {
+    await _repository.addStudent(student);
+    await loadStudents();
+  }
+
+  Future<void> updateStudent(Student student) async {
+    await _repository.updateStudent(student);
+    await loadStudents();
   }
 
   Future<void> deleteStudent(int id) async {
-    await DBHelper.deleteStudent(id);
-    students.removeWhere((student) => student.id == id);
+    await _repository.deleteStudent(id);
+    await loadStudents();
   }
 
-  StudentModel? getStudentById(int id) {
-    return students.firstWhereOrNull((s) => s.id == id);
+  void searchStudent(String query) {
+    lastQuery = query;
+
+    if (query.isEmpty) {
+      searchResults.clear();
+      isSearching.value = false;
+    } else {
+      searchResults.value =
+          students
+              .where(
+                (student) =>
+                    student.name.toLowerCase().startsWith(query.toLowerCase()),
+              )
+              .toList();
+      isSearching.value = true;
+    }
+
+    update();
   }
 
-  List<StudentModel> searchStudents(String query) {
-    if (query.isEmpty) return students;
-    return students
-        .where(
-          (student) =>
-              student.name.toLowerCase().contains(query.toLowerCase()) ||
-              student.email.toLowerCase().contains(query.toLowerCase()) ||
-              student.phone.toString().toLowerCase().contains(
-                query.toLowerCase(),
-              ),
-        )
-        .toList();
+  void clearSearch() {
+    searchResults.clear();
+    lastQuery = '';
+    isSearching.value = false;
+    update();
+  }
+
+  void toggleViewMode() {
+    isGridView.value = !isGridView.value;
+    update();
+  }
+
+  void toggleSearch(bool value) {
+    isSearching.value = value;
+    update();
   }
 }

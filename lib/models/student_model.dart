@@ -1,12 +1,12 @@
-class StudentModel {
-  int? id;
-  String name;
-  int age;
-  String email;
-  int phone;
-  String imagePath;
+class Student {
+  final int? id;
+  final String name;
+  final int age;
+  final String email;
+  final String phone;
+  final String imagePath;
 
-  StudentModel({
+  Student({
     this.id,
     required this.name,
     required this.age,
@@ -26,8 +26,8 @@ class StudentModel {
     };
   }
 
-  factory StudentModel.fromMap(Map<String, dynamic> map) {
-    return StudentModel(
+  factory Student.fromMap(Map<String, dynamic> map) {
+    return Student(
       id: map['id'],
       name: map['name'],
       age: map['age'],
