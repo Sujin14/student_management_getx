@@ -91,7 +91,7 @@ class _StudentFormScreenState extends State<StudentFormScreen> {
         controller.updateStudent(newStudent);
       }
 
-      Get.back(); // Close the form screen
+      Get.back();
     }
   }
 

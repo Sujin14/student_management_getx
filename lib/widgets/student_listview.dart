@@ -32,9 +32,9 @@ class StudentListView extends StatelessWidget {
           leading: CircleAvatar(
             backgroundImage:
                 student.imagePath.isEmpty
-                    ? const AssetImage(
-                      'assets/images/default_image.png',
-                    ) // Default image if path is empty
+                    ? const NetworkImage(
+                      'https://images.icon-icons.com/1378/PNG/512/avatardefault_92824.png',
+                    )
                     : FileImage(File(student.imagePath)),
             radius: 25,
           ),

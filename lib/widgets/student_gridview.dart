@@ -41,13 +41,12 @@ class StudentGridView extends StatelessWidget {
             child: Column(
               children: [
                 const SizedBox(height: 8),
-                // Fixing the issue by converting the image path to a File
                 CircleAvatar(
                   backgroundImage:
                       student.imagePath.isEmpty
-                          ? const AssetImage(
-                            'assets/images/default_image.png',
-                          ) // Default image if no path
+                          ? const NetworkImage(
+                            'https://images.icon-icons.com/1378/PNG/512/avatardefault_92824.png',
+                          )
                           : FileImage(File(student.imagePath)),
                   radius: 40,
                 ),

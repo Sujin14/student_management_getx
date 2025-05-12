@@ -1,5 +1,4 @@
 class Validators {
-  // Validate Name - Ensure not empty and at least 3 characters
   static String? validateName(String? value) {
     if (value == null || value.trim().isEmpty) {
       return 'Name is required';
@@ -9,7 +8,6 @@ class Validators {
     return null;
   }
 
-  // Validate Age - Ensure it's a valid positive number
   static String? validateAge(String? value) {
     if (value == null || value.trim().isEmpty) {
       return 'Age is required';
@@ -23,7 +21,6 @@ class Validators {
     return null;
   }
 
-  // Validate Email - Ensure it's in a valid email format
   static String? validateEmail(String? value) {
     if (value == null || value.trim().isEmpty) {
       return 'Email is required';
@@ -35,15 +32,13 @@ class Validators {
     return null;
   }
 
-  // Validate Phone - Ensure it's exactly 10 digits
   static String? validatePhone(String? value) {
     if (value == null || value.trim().isEmpty) {
       return 'Phone is required';
+    } else if (value.length != 10) {
+      return 'phone number should be 10 digit';
     }
-    final phoneRegex = RegExp(r'^\d{10}$');
-    if (!phoneRegex.hasMatch(value)) {
-      return 'Phone must be 10 digits';
-    }
+
     return null;
   }
 }

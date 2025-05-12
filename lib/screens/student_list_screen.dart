@@ -115,11 +115,7 @@ class _StudentListScreenState extends State<StudentListScreen> {
   }
 
   void _deleteStudent(Student student) async {
-    final confirm = await Dialogs.showConfirmationDialog(
-      context: context,
-      title: 'Delete Student',
-      content: 'Are you sure you want to delete this student?',
-    );
+    final confirm = await Dialogs.showDeleteConfirmation(student.name);
 
     if (confirm) {
       await _controller.deleteStudent(student.id!);
