@@ -30,12 +30,7 @@ class StudentListView extends StatelessWidget {
 
         return ListTile(
           leading: CircleAvatar(
-            backgroundImage:
-                student.imagePath.isEmpty
-                    ? const NetworkImage(
-                      'https://images.icon-icons.com/1378/PNG/512/avatardefault_92824.png',
-                    )
-                    : FileImage(File(student.imagePath)),
+            backgroundImage: FileImage(File(student.imagePath)),
             radius: 25,
           ),
           title: Text(student.name),

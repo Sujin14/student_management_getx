@@ -17,7 +17,7 @@ class StudentListScreen extends StatefulWidget {
 
 class _StudentListScreenState extends State<StudentListScreen> {
   final TextEditingController _searchController = TextEditingController();
-  final StudentController _controller = Get.put(StudentController());
+  final StudentController _controller = Get.find<StudentController>();
 
   @override
   void dispose() {

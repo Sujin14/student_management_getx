@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -36,7 +38,6 @@ class _StudentFormScreenState extends State<StudentFormScreen> {
     _emailController = TextEditingController(text: widget.student?.email ?? '');
     _phoneController = TextEditingController(text: widget.student?.phone ?? '');
 
-    // Pre-fill image if editing
     if (widget.student != null) {
       Get.find<ImageController>().setImage(File(widget.student!.imagePath));
     } else {
